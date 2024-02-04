@@ -8,6 +8,15 @@ declare module '*.module.scss' {
   export default classes;
 }
 
-// declare global {
-//   interface Window extends KeplrWindow {}
-// }
+type ImpactsXWindow = {
+  impactsX: {
+    claim: {
+      fetch: () => Promise<any>;
+      submit: (claim: string) => Promise<any>;
+    };
+  };
+};
+
+declare global {
+  interface Window extends ImpactsXWindow {}
+}
