@@ -1,0 +1,27 @@
+.settings {
+  max-width: var(--max-width);
+  margin: 0 auto;
+}
+
+.label {
+  color: var(--grey-color);
+}
+
+.settingLabel {
+  margin: 0 12px;
+}
+
+.networkSettingLabel {
+  margin: 0;
+  flex: 1;
+  text-align: center;
+  cursor: pointer;
+
+  &.active {
+    color: var(--primary-color);
+  }
+
+  &.inactive {
+    color: inherit;
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "siteName": "config.siteName",
+  "siteUrl": "config.siteUrl",
+  "siteTitleMeta": "config.siteTitleMeta",
+  "siteDescriptionMeta": "config.siteDescriptionMeta",
+  "fontUrl": "https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap",
+  "fontName": "Roboto",
+  "headerShowName": true,
+  "headerShowLogo": true,
+  "about": "config.about",
+  "termsAndConditions": "https://my.jambo.earth/legal/termsOfUse",
+  "actions": []
+}
