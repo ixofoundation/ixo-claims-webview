@@ -22,7 +22,10 @@ const ClaimFormByImpactsX: NextPage<ClaimFormByImpactsXProps> = ({ network }) =>
       fetchSurvey.current = false;
       (async () => {
         try {
-          if (!(window as any)?.impactX?.claim?.fetch) throw new Error('Unable to fetch claim from Impacts X');
+          if ((!window as any)?.impactsX) throw new Error('Impacts X not found');
+          if ((!window as any)?.impactsX?.claim) throw new Error('Impacts X claim handler not found');
+          if ((!window as any)?.impactsX?.claim?.fetch) throw new Error('Impacts X claim handler fetch not found');
+          if (!(window as any)?.impactsX?.claim?.fetch) throw new Error('Unable to fetch claim from Impacts X');
           const survey = await (window as any).impactsX.claim.fetch();
           if (!survey) throw new Error('Unable to fetch claim form from Impacts X');
           setSurveyTemplate(survey.question);
