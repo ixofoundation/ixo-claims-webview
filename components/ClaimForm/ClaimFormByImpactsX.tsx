@@ -52,7 +52,12 @@ const ClaimFormByImpactsX: NextPage<ClaimFormByImpactsXProps> = ({ network }) =>
       />
     );
 
-  return <ClaimForm surveyTemplate={surveyTemplate} network={network} />;
+  return (
+    <>
+      <ClaimForm surveyTemplate={surveyTemplate} network={network} />
+      {surveyTemplate}
+    </>
+  );
 };
 
 export default ClaimFormByImpactsX;
