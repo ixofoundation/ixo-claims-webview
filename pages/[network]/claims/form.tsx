@@ -19,9 +19,7 @@ const ClaimFormByImpactsXPage: NextPage<{}> = () => {
     <>
       <Head title={headTitle} description={headDescription} />
 
-      <main className={cls(utilsStyles.main, utilsStyles.columnJustifyCenter, styles.stepContainer)}>
-        {<ClaimFormByImpactsX network={query.network as ChainNetwork} />}
-      </main>
+      <ClaimFormByImpactsX network={query.network as ChainNetwork} />
     </>
   );
 };

@@ -9,11 +9,20 @@ type LoaderMessageProps = {
 
 const LoaderMessage: FC<LoaderMessageProps> = ({ message }) => {
   return (
-    <>
+    <div
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        height: '100vh',
+        width: '100%',
+      }}
+    >
       <Loader size={30} />
       <div className={utilsStyles.spacer3} />
       {message}
-    </>
+    </div>
   );
 };
 

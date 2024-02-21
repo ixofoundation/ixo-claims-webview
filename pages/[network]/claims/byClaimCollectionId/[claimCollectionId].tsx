@@ -19,14 +19,10 @@ const ClaimFormByClaimCollectionIdPage: NextPage<{}> = () => {
     <>
       <Head title={headTitle} description={headDescription} />
 
-      <main className={cls(utilsStyles.main, utilsStyles.columnJustifyCenter, styles.stepContainer)}>
-        {
-          <ClaimFormByClaimCollectionId
-            claimCollectionId={query.claimCollectionId as string}
-            network={query.network as ChainNetwork}
-          />
-        }
-      </main>
+      <ClaimFormByClaimCollectionId
+        claimCollectionId={query.claimCollectionId as string}
+        network={query.network as ChainNetwork}
+      />
     </>
   );
 };
