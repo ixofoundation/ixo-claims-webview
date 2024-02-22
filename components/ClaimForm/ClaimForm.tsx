@@ -2,6 +2,8 @@ import { useState, useMemo, useCallback } from 'react';
 import type { NextPage } from 'next';
 import { Model } from 'survey-core';
 import { Survey } from 'survey-react-ui';
+import 'survey-core/defaultV2.min.css';
+import 'survey-core/themes/borderless-dark';
 
 import LoaderMessage from '@components/LoaderMessage/LoaderMessage';
 import IconText from '@components/IconText/IconText';
@@ -17,16 +19,6 @@ const ClaimForm: NextPage<ClaimFormProps> = ({ surveyTemplate }) => {
   const [loading, setLoading] = useState<boolean | undefined>(true);
   const [error, setError] = useState<string | undefined>(undefined);
   const [submitting, setSubmitting] = useState<boolean | undefined>(false);
-
-  // 1) fetch claim based on protocolId
-  // 2) fetch claim survey based on linkedResource (surveyTemplate)
-  // 3) render claim survey
-  // 4) submit claim survey via Impacts X Signing
-
-  // also ensure user is signed in via Impacts X Wallet
-  // clear any unused, unnecessary components from project
-  // save data offline (via impacts X app)
-  // perhaps provide claim form as prop?
 
   const handleSubmit = useCallback(async (answer: any) => {
     setSubmitting(true);
@@ -85,30 +77,9 @@ const ClaimForm: NextPage<ClaimFormProps> = ({ surveyTemplate }) => {
   if (!surveyTemplate)
     return <IconText title='Something went wrong' subTitle='Unable to render claim survey' imgSize={50} />;
 
-  return (
-    <div
-      style={{
-        display: 'flex',
-        flexDirection: 'row',
-        justifyContent: 'center',
-        alignItems: 'center',
-        // width: '100%',
-      }}
-    >
-      <div
-        style={{
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'flex-start',
-          alignItems: 'flex-start',
-          gap: '1.75rem' /* 7 * 0.25rem */,
-          width: '100%',
-        }}
-      >
-        {survey && <Survey model={survey} />}
-      </div>
-    </div>
-  );
+  if (!survey) return <IconText title='Something went wrong' subTitle='Unable to render claim survey' imgSize={50} />;
+
+  return <Survey model={survey} />;
 };
 
 export default ClaimForm;
