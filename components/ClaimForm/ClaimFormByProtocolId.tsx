@@ -29,10 +29,12 @@ const ClaimFormByProtocolId: NextPage<ClaimFormByProtocolIdProps> = ({ protocolI
         try {
           const protocolEntity = await queryEntityById(network, protocolId as string);
           if (!protocolEntity) throw new Error('Unable to fetch claim protocol');
+          console.log('protocolEntity', protocolEntity.type);
           if (
             protocolEntity.type !== 'protocol' &&
             protocolEntity.type !== 'deed' &&
-            protocolEntity.type !== 'protocol/deed'
+            protocolEntity.type !== 'protocol/deed' &&
+            protocolEntity.type !== 'protocol/claim'
           )
             throw new Error('Invalid protocol id');
           const claimSchemaLinkedResource: undefined | EntityLinkedResource = (
