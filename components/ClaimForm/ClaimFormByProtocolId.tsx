@@ -12,9 +12,11 @@ import { ChainNetwork } from 'types/chain';
 type ClaimFormByProtocolIdProps = {
   protocolId: string;
   network: ChainNetwork;
+  address?: string;
+  did?: string;
 };
 
-const ClaimFormByProtocolId: NextPage<ClaimFormByProtocolIdProps> = ({ protocolId, network }) => {
+const ClaimFormByProtocolId: NextPage<ClaimFormByProtocolIdProps> = ({ protocolId, network, address, did }) => {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | undefined>(undefined);
   const [surveyUrl, setSurveyUrl] = useState<string | undefined>(undefined);
@@ -63,7 +65,7 @@ const ClaimFormByProtocolId: NextPage<ClaimFormByProtocolIdProps> = ({ protocolI
   if (!surveyUrl)
     return <IconText title='Something went wrong' subTitle='Unable to fetch claim protocol' imgSize={50} />;
 
-  return <ClaimFormBySurveyUrl surveyUrl={surveyUrl} network={network} />;
+  return <ClaimFormBySurveyUrl surveyUrl={surveyUrl} network={network} address={address} did={did} />;
 };
 
 export default ClaimFormByProtocolId;

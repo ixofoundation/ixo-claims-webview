@@ -1,16 +1,18 @@
 import { useState, useEffect, useRef } from 'react';
 import type { NextPage } from 'next';
 
-import ClaimForm from './ClaimForm';
 import LoaderMessage from '@components/LoaderMessage/LoaderMessage';
 import IconText from '@components/IconText/IconText';
 import { ChainNetwork } from 'types/chain';
+import ClaimForm from './ClaimForm';
 
 type ClaimFormByImpactsXProps = {
   network: ChainNetwork;
+  address?: string;
+  did?: string;
 };
 
-const ClaimFormByImpactsX: NextPage<ClaimFormByImpactsXProps> = ({ network }) => {
+const ClaimFormByImpactsX: NextPage<ClaimFormByImpactsXProps> = ({ network, address, did }) => {
   const [loading, setLoading] = useState<boolean | undefined>(true);
   const [error, setError] = useState<string | undefined>(undefined);
   const [surveyTemplate, setSurveyTemplate] = useState<any[]>([]);
@@ -52,7 +54,7 @@ const ClaimFormByImpactsX: NextPage<ClaimFormByImpactsXProps> = ({ network }) =>
       />
     );
 
-  return <ClaimForm surveyTemplate={surveyTemplate} network={network} />;
+  return <ClaimForm surveyTemplate={surveyTemplate} network={network} address={address} did={did} />;
 };
 
 export default ClaimFormByImpactsX;

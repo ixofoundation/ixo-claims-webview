@@ -13,6 +13,8 @@ import { ChainNetwork } from 'types/chain';
 type ClaimFormProps = {
   surveyTemplate: any;
   network: ChainNetwork;
+  address?: string;
+  did?: string;
 };
 
 const ClaimForm: NextPage<ClaimFormProps> = ({ surveyTemplate }) => {
