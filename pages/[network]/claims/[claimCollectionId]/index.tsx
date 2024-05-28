@@ -15,6 +15,8 @@ const ClaimFormByClaimCollectionIdPage: NextPage<{}> = () => {
       <ClaimFormByClaimCollectionId
         claimCollectionId={query.claimCollectionId as string}
         network={query.network as ChainNetwork}
+        address={query.address as string}
+        did={query.did as string}
       />
     </>
   );

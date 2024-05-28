@@ -52,7 +52,15 @@ const ClaimFormByClaimCollectionId: NextPage<ClaimFormByClaimCollectionIdProps> 
   if (!protocolId)
     return <IconText title='Something went wrong' subTitle='Unable to fetch claim collection' imgSize={50} />;
 
-  return <ClaimFormByProtocolId protocolId={protocolId} network={network} address={address} did={did} />;
+  return (
+    <ClaimFormByProtocolId
+      claimCollectionId={claimCollectionId}
+      protocolId={protocolId}
+      network={network}
+      address={address}
+      did={did}
+    />
+  );
 };
 
 export default ClaimFormByClaimCollectionId;

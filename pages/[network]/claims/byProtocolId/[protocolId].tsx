@@ -12,7 +12,12 @@ const ClaimFormByProtocolIdPage: NextPage<{}> = () => {
     <>
       <Head title={'Claim Form'} description={'Submit a Claim'} />
 
-      <ClaimFormByProtocolId protocolId={query.protocolId as string} network={query.network as ChainNetwork} />
+      <ClaimFormByProtocolId
+        protocolId={query.protocolId as string}
+        network={query.network as ChainNetwork}
+        address={query.address as string}
+        did={query.did as string}
+      />
     </>
   );
 };

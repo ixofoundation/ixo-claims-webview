@@ -9,11 +9,18 @@ import { ChainNetwork } from 'types/chain';
 type ClaimFormBySurveyUrlProps = {
   surveyUrl: string;
   network: ChainNetwork;
+  claimCollectionId?: string;
   address?: string;
   did?: string;
 };
 
-const ClaimFormBySurveyUrl: NextPage<ClaimFormBySurveyUrlProps> = ({ surveyUrl, network, address, did }) => {
+const ClaimFormBySurveyUrl: NextPage<ClaimFormBySurveyUrlProps> = ({
+  surveyUrl,
+  network,
+  claimCollectionId,
+  address,
+  did,
+}) => {
   const [loading, setLoading] = useState<boolean | undefined>(true);
   const [error, setError] = useState<string | undefined>(undefined);
   const [surveyTemplate, setSurveyTemplate] = useState<any[]>([]);
@@ -47,7 +54,15 @@ const ClaimFormBySurveyUrl: NextPage<ClaimFormBySurveyUrlProps> = ({ surveyUrl, 
   if (!surveyTemplate)
     return <IconText title='Something went wrong' subTitle='Unable to fetch claim template' imgSize={50} />;
 
-  return <ClaimForm surveyTemplate={surveyTemplate} network={network} address={address} did={did} />;
+  return (
+    <ClaimForm
+      claimCollectionId={claimCollectionId}
+      surveyTemplate={surveyTemplate}
+      network={network}
+      address={address}
+      did={did}
+    />
+  );
 };
 
 export default ClaimFormBySurveyUrl;

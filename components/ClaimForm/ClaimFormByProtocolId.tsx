@@ -12,11 +12,18 @@ import { ChainNetwork } from 'types/chain';
 type ClaimFormByProtocolIdProps = {
   protocolId: string;
   network: ChainNetwork;
+  claimCollectionId?: string;
   address?: string;
   did?: string;
 };
 
-const ClaimFormByProtocolId: NextPage<ClaimFormByProtocolIdProps> = ({ protocolId, network, address, did }) => {
+const ClaimFormByProtocolId: NextPage<ClaimFormByProtocolIdProps> = ({
+  protocolId,
+  network,
+  claimCollectionId,
+  address,
+  did,
+}) => {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | undefined>(undefined);
   const [surveyUrl, setSurveyUrl] = useState<string | undefined>(undefined);
@@ -31,7 +38,6 @@ const ClaimFormByProtocolId: NextPage<ClaimFormByProtocolIdProps> = ({ protocolI
         try {
           const protocolEntity = await queryEntityById(network, protocolId as string);
           if (!protocolEntity) throw new Error('Unable to fetch claim protocol');
-          console.log('protocolEntity', protocolEntity.type);
           if (
             protocolEntity.type !== 'protocol' &&
             protocolEntity.type !== 'deed' &&
@@ -39,12 +45,14 @@ const ClaimFormByProtocolId: NextPage<ClaimFormByProtocolIdProps> = ({ protocolI
             protocolEntity.type !== 'protocol/claim'
           )
             throw new Error('Invalid protocol id');
-          const claimSchemaLinkedResource: undefined | EntityLinkedResource = (
-            protocolEntity as Entity
-          ).linkedResource?.find((linkedResource) => linkedResource.type?.includes('survey'));
+          const claimSchemaLinkedResource: undefined | EntityLinkedResource = // @ts-ignore
+            (protocolEntity as Entity).linkedResource?.find((linkedResource) =>
+              linkedResource.type?.includes('survey'),
+            );
           if (!claimSchemaLinkedResource) throw new Error('Unable to identify claim survey');
           const url = serviceEndpointToUrl(
             claimSchemaLinkedResource.serviceEndpoint!,
+            // @ts-ignore
             (protocolEntity as Entity).service!,
           );
           setSurveyUrl(url);
@@ -65,7 +73,15 @@ const ClaimFormByProtocolId: NextPage<ClaimFormByProtocolIdProps> = ({ protocolI
   if (!surveyUrl)
     return <IconText title='Something went wrong' subTitle='Unable to fetch claim protocol' imgSize={50} />;
 
-  return <ClaimFormBySurveyUrl surveyUrl={surveyUrl} network={network} address={address} did={did} />;
+  return (
+    <ClaimFormBySurveyUrl
+      claimCollectionId={claimCollectionId}
+      surveyUrl={surveyUrl}
+      network={network}
+      address={address}
+      did={did}
+    />
+  );
 };
 
 export default ClaimFormByProtocolId;

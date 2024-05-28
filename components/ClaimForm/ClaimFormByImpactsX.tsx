@@ -8,21 +8,22 @@ import ClaimForm from './ClaimForm';
 
 type ClaimFormByImpactsXProps = {
   network: ChainNetwork;
+  claimCollectionId?: string;
   address?: string;
   did?: string;
 };
 
-const ClaimFormByImpactsX: NextPage<ClaimFormByImpactsXProps> = ({ network, address, did }) => {
+const ClaimFormByImpactsX: NextPage<ClaimFormByImpactsXProps> = ({ network, claimCollectionId, address, did }) => {
   const [loading, setLoading] = useState<boolean | undefined>(true);
   const [error, setError] = useState<string | undefined>(undefined);
   const [surveyTemplate, setSurveyTemplate] = useState<any[]>([]);
 
   const fetchSurvey = useRef<boolean>(true);
 
-  useEffect(() => {
+  useEffect(function () {
     if (fetchSurvey.current) {
       fetchSurvey.current = false;
-      (async () => {
+      (async function () {
         try {
           if ((!window as any)?.impactsX) throw new Error('Impacts X not found');
           if ((!window as any)?.impactsX?.claim) throw new Error('Impacts X claim handler not found');
@@ -54,7 +55,15 @@ const ClaimFormByImpactsX: NextPage<ClaimFormByImpactsXProps> = ({ network, addr
       />
     );
 
-  return <ClaimForm surveyTemplate={surveyTemplate} network={network} address={address} did={did} />;
+  return (
+    <ClaimForm
+      claimCollectionId={claimCollectionId}
+      surveyTemplate={surveyTemplate}
+      network={network}
+      address={address}
+      did={did}
+    />
+  );
 };
 
 export default ClaimFormByImpactsX;

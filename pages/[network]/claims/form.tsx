@@ -12,7 +12,11 @@ const ClaimFormByImpactsXPage: NextPage<{}> = () => {
     <>
       <Head title={'Claim Form'} description={'Submit a Claim'} />
 
-      <ClaimFormByImpactsX network={query.network as ChainNetwork} />
+      <ClaimFormByImpactsX
+        network={query.network as ChainNetwork}
+        address={query.address as string}
+        did={query.did as string}
+      />
     </>
   );
 };
