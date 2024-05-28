@@ -10,9 +10,16 @@ import { ChainNetwork } from 'types/chain';
 type ClaimFormByClaimCollectionIdProps = {
   claimCollectionId: string;
   network: ChainNetwork;
+  address?: string;
+  did?: string;
 };
 
-const ClaimFormByClaimCollectionId: NextPage<ClaimFormByClaimCollectionIdProps> = ({ claimCollectionId, network }) => {
+const ClaimFormByClaimCollectionId: NextPage<ClaimFormByClaimCollectionIdProps> = ({
+  claimCollectionId,
+  network,
+  address,
+  did,
+}) => {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | undefined>(undefined); // TODO: render error
   const [protocolId, setProtocolId] = useState<string | undefined>(undefined);
@@ -45,7 +52,15 @@ const ClaimFormByClaimCollectionId: NextPage<ClaimFormByClaimCollectionIdProps> 
   if (!protocolId)
     return <IconText title='Something went wrong' subTitle='Unable to fetch claim collection' imgSize={50} />;
 
-  return <ClaimFormByProtocolId protocolId={protocolId} network={network} />;
+  return (
+    <ClaimFormByProtocolId
+      claimCollectionId={claimCollectionId}
+      protocolId={protocolId}
+      network={network}
+      address={address}
+      did={did}
+    />
+  );
 };
 
 export default ClaimFormByClaimCollectionId;

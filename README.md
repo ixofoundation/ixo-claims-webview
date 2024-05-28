@@ -108,44 +108,6 @@ The steps available for actions can be seen in the [steps](#📚-steps) section.
 
 Below is an example configuration for a delegate action, which allows the user to stake tokens to validators. The id property is a unique identifier for the action and is used for navigation and routing, while the image property represents an image associated with the action (hence the image name corresponds with the action's id).
 
-![config.json example](/assets/images/docs/config_json_example.png)
-
----
-
-## 📚 STEPS
-
-| Send                                                                  |                                                                             |                                                       |
-| --------------------------------------------------------------------- | --------------------------------------------------------------------------- | ----------------------------------------------------- |
-| get_receiver_address                                                  | select_token_and_amount                                                     | bank_MsgSend                                          |
-| ![get_receiver_address](/assets/images/docs/get_receiver_address.png) | ![select_token_and_amount](/assets/images/docs/select_token_and_amount.png) | ![bank_MsgSend](/assets/images/docs/bank_MsgSend.png) |
-
-| MultiSend                                                             |                                                                             |                                                                 |
-| --------------------------------------------------------------------- | --------------------------------------------------------------------------- | --------------------------------------------------------------- |
-| get_receiver_address                                                  | select_token_and_amount                                                     | bank_MsgMultiSend                                               |
-| ![get_receiver_address](/assets/images/docs/get_receiver_address.png) | ![select_token_and_amount](/assets/images/docs/select_token_and_amount.png) | ![bank_MsgMultiSend](/assets/images/docs/bank_MsgMultiSend.png) |
-
-| Delegate                                                                  |                                                                           |                                                                     |
-| ------------------------------------------------------------------------- | ------------------------------------------------------------------------- | ------------------------------------------------------------------- |
-| get_validator_delegate                                                    | select_amount_delegate                                                    | staking_MsgDelegate                                                 |
-| ![get_validator_delegate](/assets/images/docs/get_validator_delegate.png) | ![select_amount_delegate](/assets/images/docs/select_amount_delegate.png) | ![staking_MsgDelegate](/assets/images/docs/staking_MsgDelegate.png) |
-
-| Undelegate                                                                                        |                                                                               |                                                                         |
-| ------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------- | ----------------------------------------------------------------------- |
-| get_delegated_validator_undelegate                                                                | select_amount_undelegate                                                      | staking_MsgUndelegate                                                   |
-| ![get_delegated_validator_undelegate](/assets/images/docs/get_delegated_validator_undelegate.png) | ![select_amount_undelegate](/assets/images/docs/select_amount_undelegate.png) | ![staking_MsgUndelegate](/assets/images/docs/staking_MsgUndelegate.png) |
-
-| Redelegate                                                                                        |                                                                               |                                                                               |                                                                         |
-| ------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------- | ----------------------------------------------------------------------------- | ----------------------------------------------------------------------- |
-| get_delegated_validator_redelegate                                                                | select_amount_redelegate                                                      | get_validator_redelegate                                                      | staking_MsgRedelegate                                                   |
-| ![get_delegated_validator_redelegate](/assets/images/docs/get_delegated_validator_redelegate.png) | ![select_amount_redelegate](/assets/images/docs/select_amount_redelegate.png) | ![get_validator_redelegate](/assets/images/docs/get_validator_redelegate.png) | ![staking_MsgRedelegate](/assets/images/docs/staking_MsgRedelegate.png) |
-
-| Claim Rewards                                                                                               |     |     |
-| ----------------------------------------------------------------------------------------------------------- | --- | --- |
-| distribution_MsgWithdrawDelegatorReward                                                                     |     |     |
-| ![distribution_MsgWithdrawDelegatorReward](/assets/images/docs/distribution_MsgWithdrawDelegatorReward.png) |     |     |
-
----
-
 ## 💼 Wallets
 
 The JAMBO client makes use of the following wallets:

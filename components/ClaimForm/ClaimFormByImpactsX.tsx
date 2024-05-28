@@ -1,26 +1,29 @@
 import { useState, useEffect, useRef } from 'react';
 import type { NextPage } from 'next';
 
-import ClaimForm from './ClaimForm';
 import LoaderMessage from '@components/LoaderMessage/LoaderMessage';
 import IconText from '@components/IconText/IconText';
 import { ChainNetwork } from 'types/chain';
+import ClaimForm from './ClaimForm';
 
 type ClaimFormByImpactsXProps = {
   network: ChainNetwork;
+  claimCollectionId?: string;
+  address?: string;
+  did?: string;
 };
 
-const ClaimFormByImpactsX: NextPage<ClaimFormByImpactsXProps> = ({ network }) => {
+const ClaimFormByImpactsX: NextPage<ClaimFormByImpactsXProps> = ({ network, claimCollectionId, address, did }) => {
   const [loading, setLoading] = useState<boolean | undefined>(true);
   const [error, setError] = useState<string | undefined>(undefined);
   const [surveyTemplate, setSurveyTemplate] = useState<any[]>([]);
 
   const fetchSurvey = useRef<boolean>(true);
 
-  useEffect(() => {
+  useEffect(function () {
     if (fetchSurvey.current) {
       fetchSurvey.current = false;
-      (async () => {
+      (async function () {
         try {
           if ((!window as any)?.impactsX) throw new Error('Impacts X not found');
           if ((!window as any)?.impactsX?.claim) throw new Error('Impacts X claim handler not found');
@@ -52,7 +55,15 @@ const ClaimFormByImpactsX: NextPage<ClaimFormByImpactsXProps> = ({ network }) =>
       />
     );
 
-  return <ClaimForm surveyTemplate={surveyTemplate} network={network} />;
+  return (
+    <ClaimForm
+      claimCollectionId={claimCollectionId}
+      surveyTemplate={surveyTemplate}
+      network={network}
+      address={address}
+      did={did}
+    />
+  );
 };
 
 export default ClaimFormByImpactsX;

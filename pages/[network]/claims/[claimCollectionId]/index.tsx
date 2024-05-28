@@ -1,27 +1,22 @@
-import { useState } from 'react';
 import type { NextPage } from 'next';
 import { useRouter } from 'next/router';
-import cls from 'classnames';
 
-import utilsStyles from '@styles/utils.module.scss';
-import styles from '@styles/stepsPages.module.scss';
-import Head from '@components/Head/Head';
 import ClaimFormByClaimCollectionId from '@components/ClaimForm/ClaimFormByClaimCollectionId';
+import Head from '@components/Head/Head';
 import { ChainNetwork } from 'types/chain';
 
 const ClaimFormByClaimCollectionIdPage: NextPage<{}> = () => {
-  const [headTitle, setHeadTitle] = useState<string>('Claim Form');
-  const [headDescription, setHeadDescription] = useState<string>('Submit a Claim');
-
   const { query } = useRouter();
 
   return (
     <>
-      <Head title={headTitle} description={headDescription} />
+      <Head title={'Claim Form'} description={'Submit a Claim'} />
 
       <ClaimFormByClaimCollectionId
         claimCollectionId={query.claimCollectionId as string}
         network={query.network as ChainNetwork}
+        address={query.address as string}
+        did={query.did as string}
       />
     </>
   );
