@@ -1,6 +1,5 @@
 import { ChainNetwork } from 'types/chain';
 import { EntityNodeType, EntityService } from 'types/entity';
-import { DEVNET_BLOCKSYNC_GRAPHQL_URL, MAINNET_BLOCKSYNC_GRAPHQL_URL, TESTNET_BLOCKSYNC_GRAPHQL_URL } from './secrets';
 
 export function serviceEndpointToUrl(serviceEndpoint: string, service: EntityService[]): string {
   if (service.length === 0) {
@@ -31,11 +30,11 @@ export function serviceEndpointToUrl(serviceEndpoint: string, service: EntitySer
 export function getBlocksyncGraphqlUrl(network: ChainNetwork): string {
   switch (network) {
     case ChainNetwork.Mainnet:
-      return MAINNET_BLOCKSYNC_GRAPHQL_URL;
+      return 'https://blocksync-graphql.ixo.earth/graphql';
     case ChainNetwork.Testnet:
-      return TESTNET_BLOCKSYNC_GRAPHQL_URL;
+      return 'https://testnet-blocksync-graphql.ixo.earth/graphql';
     case ChainNetwork.Devnet:
-      return DEVNET_BLOCKSYNC_GRAPHQL_URL;
+      return 'https://devnet-blocksync-graphql.ixo.earth/graphql';
     default:
       return '';
   }
