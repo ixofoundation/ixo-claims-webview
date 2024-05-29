@@ -6,16 +6,15 @@ import 'survey-core/defaultV2.min.css';
 import 'survey-core/themes/borderless-dark';
 
 import LoaderMessage from '@components/LoaderMessage/LoaderMessage';
+import SelectStartAndEndDate from '@components/SelectStartAndEndDate/SelectStartAndEndDate';
 import IconText from '@components/IconText/IconText';
 import { themeJson } from '@constants/surveyTheme';
 import { ChainNetwork } from 'types/chain';
-import { queryClaimCollectionsByEntityAndProtocols, queryEntitiesByRelayerNode } from '@utils/graphql';
 import {
-  DEVNET_OFFSET_DAO_ENTITY_ID,
-  MAINNET_OFFSET_DAO_ENTITY_ID,
-  TESTNET_OFFSET_DAO_ENTITY_ID,
+  DEVNET_OFFSET_CLAIM_COLLECTION_IDS,
+  MAINNET_OFFSET_CLAIM_COLLECTION_IDS,
+  TESTNET_OFFSET_CLAIM_COLLECTION_IDS,
 } from '@utils/secrets';
-import SelectStartAndEndDate from '@components/SelectStartAndEndDate/SelectStartAndEndDate';
 
 type ClaimFormProps = {
   surveyTemplate: any;
@@ -27,81 +26,25 @@ type ClaimFormProps = {
 
 const ClaimForm: NextPage<ClaimFormProps> = ({ surveyTemplate, network, claimCollectionId, address, did }) => {
   const [surveyLoading, setSurveyLoading] = useState<boolean | undefined>(true);
-  const [claimProtocolLoading, setClaimProtocolLoading] = useState<boolean | undefined>(true);
-  const [surveyIsOffsetClaim, setSurveyIsOffsetClaim] = useState<boolean | undefined>(false);
   const [startDate, setStartDate] = useState<string | undefined>(undefined);
   const [endDate, setEndDate] = useState<string | undefined>(undefined);
   const [offsetTokens, setOffsetTokens] = useState<number | undefined>(undefined);
-  const [collectionBranding, setCollectionBranding] = useState<string | undefined>(undefined);
-  const [collectionName, setCollectionName] = useState<string | undefined>(undefined);
   const [error, setError] = useState<string | undefined>(undefined);
   const [submitting, setSubmitting] = useState<boolean | undefined>(false);
 
-  const claimProtocolLoadingRef = useRef<boolean>(false);
-
-  useEffect(
+  const surveyIsOffsetClaim = useMemo(
     function () {
-      if (!claimCollectionId) {
-        setClaimProtocolLoading(false);
-      } else {
-        (async function () {
-          if (claimProtocolLoadingRef.current) return;
-          claimProtocolLoadingRef.current = true;
-          try {
-            setClaimProtocolLoading(true);
-            const offsetDaoEntityId =
-              network === ChainNetwork.Mainnet
-                ? MAINNET_OFFSET_DAO_ENTITY_ID
-                : network === ChainNetwork.Testnet
-                ? TESTNET_OFFSET_DAO_ENTITY_ID
-                : network === ChainNetwork.Devnet
-                ? DEVNET_OFFSET_DAO_ENTITY_ID
-                : undefined;
-            if (!offsetDaoEntityId) {
-              throw new Error('Invalid network');
-            }
-            const entities = await queryEntitiesByRelayerNode(network, offsetDaoEntityId);
-            if (!entities?.length) {
-              return;
-            }
-            const entityIds = entities
-              .map(function (entity) {
-                return entity.id;
-              })
-              .filter(function (id) {
-                return !!id;
-              });
-            if (!entityIds.length) {
-              return;
-            }
-            const claimCollections = await queryClaimCollectionsByEntityAndProtocols(
-              network,
-              offsetDaoEntityId,
-              entityIds,
-            );
-            if (!claimCollections?.length) {
-              return;
-            }
-            const offsetClaimCollections = claimCollections
-              .map(function (claimCollection) {
-                return claimCollection.id;
-              })
-              .filter(function (id) {
-                return !!id;
-              });
-            if (offsetClaimCollections?.length && offsetClaimCollections.includes(claimCollectionId)) {
-              setSurveyIsOffsetClaim(true);
-            }
-          } catch (error) {
-            console.error(error);
-          } finally {
-            setClaimProtocolLoading(false);
-            claimProtocolLoadingRef.current = false;
-          }
-        })();
-      }
+      const offsetClaimCollections =
+        network === ChainNetwork.Mainnet
+          ? MAINNET_OFFSET_CLAIM_COLLECTION_IDS
+          : network === ChainNetwork.Testnet
+          ? TESTNET_OFFSET_CLAIM_COLLECTION_IDS
+          : network === ChainNetwork.Devnet
+          ? DEVNET_OFFSET_CLAIM_COLLECTION_IDS
+          : [];
+      return offsetClaimCollections.includes(claimCollectionId ?? '');
     },
-    [claimCollectionId, network],
+    [network, claimCollectionId],
   );
 
   const handleSubmit = useCallback(async function (answer: any) {
@@ -136,16 +79,10 @@ const ClaimForm: NextPage<ClaimFormProps> = ({ surveyTemplate, network, claimCol
         const surveyData: Record<string, any> = {
           startDate: startDate?.split('T')?.[0],
           endDate: endDate?.split('T')?.[0],
-          numberOfCreditsProduced: offsetTokens ?? 0,
+          amountOffset: offsetTokens ?? 0,
         };
         if (did) {
           surveyData.claimantWallet = did;
-        }
-        if (collectionBranding) {
-          surveyData.collectionBranding = collectionBranding;
-        }
-        if (collectionName) {
-          surveyData.collectionName = collectionName;
         }
         survey.data = surveyData;
       }
@@ -177,25 +114,13 @@ const ClaimForm: NextPage<ClaimFormProps> = ({ surveyTemplate, network, claimCol
     [surveyTemplate, surveyIsOffsetClaim, did, startDate, endDate, offsetTokens],
   );
 
-  function handleContinue(
-    startDate: string,
-    endDate: string,
-    offsetTokens: number,
-    collectionBranding?: string,
-    collectionName?: string,
-  ) {
-    if (collectionBranding) {
-      setCollectionBranding(collectionBranding);
-    }
-    if (collectionName) {
-      setCollectionName(collectionName);
-    }
+  function handleContinue(startDate: string, endDate: string, offsetTokens: number) {
     setStartDate(startDate);
     setEndDate(endDate);
     setOffsetTokens(offsetTokens);
   }
 
-  if (surveyLoading || claimProtocolLoading) return <LoaderMessage message='Rendering claim form...' />;
+  if (surveyLoading) return <LoaderMessage message='Rendering claim form...' />;
 
   if (error) return <IconText title='Something went wrong' subTitle={error} imgSize={50} />;
 

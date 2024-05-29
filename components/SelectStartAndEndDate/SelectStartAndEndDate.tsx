@@ -30,34 +30,8 @@ const SelectStartAndEndDate: NextPage<SelectStartAndEndDateProps> = ({
 }) => {
   const [startDate, setStartDate] = useState<string | undefined>(undefined);
   const [endDate, setEndDate] = useState<string | undefined>(undefined);
-  const [profile, setProfile] = useState<any | undefined>(undefined);
 
   const todayRef = useRef<string>(new Date().toISOString().split('T')[0]);
-
-  useEffect(
-    function () {
-      if (claimCollectionId) {
-        (async function () {
-          try {
-            const response = await fetch(`/api/entity/profile?network=${network}`, {
-              method: 'GET',
-              headers: {
-                'Content-Type': 'application/json',
-              },
-            });
-            if (!response.ok) {
-              throw new Error(`HTTP error! Status: ${response.status}`);
-            }
-            const data = await response.json();
-            setProfile(data);
-          } catch (error) {
-            console.error(error);
-          }
-        })();
-      }
-    },
-    [claimCollectionId],
-  );
 
   async function handleContinuePress() {
     try {
@@ -67,7 +41,7 @@ const SelectStartAndEndDate: NextPage<SelectStartAndEndDateProps> = ({
       if (carbonOffsetMessages) {
         impactTokens = carbonOffsetMessages.reduce((acc, message) => acc + Number(message.value ?? 0), 0);
       }
-      onContinue(startDate!, endDate!, impactTokens, profile?.brand, profile?.name);
+      onContinue(startDate!, endDate!, impactTokens);
     } catch (error) {
       console.error(error);
     }
