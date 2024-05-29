@@ -32,6 +32,8 @@ const ClaimForm: NextPage<ClaimFormProps> = ({ surveyTemplate, network, claimCol
   const [error, setError] = useState<string | undefined>(undefined);
   const [submitting, setSubmitting] = useState<boolean | undefined>(false);
 
+  console.log(surveyTemplate);
+
   const surveyIsOffsetClaim = useMemo(
     function () {
       const offsetClaimCollections =
@@ -79,7 +81,7 @@ const ClaimForm: NextPage<ClaimFormProps> = ({ surveyTemplate, network, claimCol
         const surveyData: Record<string, any> = {
           startDate: startDate?.split('T')?.[0],
           endDate: endDate?.split('T')?.[0],
-          amountOffset: offsetTokens ?? 0,
+          amountOffset: (offsetTokens ?? 0).toString(),
         };
         if (did) {
           surveyData.claimantWallet = did;
