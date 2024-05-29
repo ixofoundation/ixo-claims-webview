@@ -8,6 +8,7 @@ import Button, { BUTTON_BG_COLOR, BUTTON_BORDER_COLOR, BUTTON_COLOR, BUTTON_SIZE
 import { getCSSVariable } from '@utils/styles';
 import { queryCarbonRetireMessages } from '@utils/graphql';
 import { ChainNetwork } from 'types/chain';
+import { aggregateTokensAmount } from '@utils/tokens';
 
 type SelectStartAndEndDateProps = {
   network: ChainNetwork;
@@ -39,7 +40,8 @@ const SelectStartAndEndDate: NextPage<SelectStartAndEndDateProps> = ({
       let impactTokens = 0;
       const carbonOffsetMessages = await queryCarbonRetireMessages(network, address, startDate!, endDate!);
       if (carbonOffsetMessages) {
-        impactTokens = carbonOffsetMessages.reduce((acc, message) => acc + Number(message.value ?? 0), 0);
+        // @ts-ignore
+        impactTokens = aggregateTokensAmount(carbonOffsetMessages);
       }
       onContinue(startDate!, endDate!, impactTokens);
     } catch (error) {
