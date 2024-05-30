@@ -69,6 +69,7 @@ const SelectStartAndEndDate: NextPage<SelectStartAndEndDateProps> = ({
           style={{
             width: '100%',
             height: '100%',
+            minHeight: '40px',
             padding: 10,
             background: 'transparent',
             borderColor: 'transparent',
@@ -76,6 +77,7 @@ const SelectStartAndEndDate: NextPage<SelectStartAndEndDateProps> = ({
           }}
           type='date'
           id='start-date'
+          placeholder='Select Start Date'
           value={startDate}
           max={todayRef.current}
           onChange={handleStartDateChange}
@@ -92,6 +94,7 @@ const SelectStartAndEndDate: NextPage<SelectStartAndEndDateProps> = ({
           style={{
             width: '100%',
             height: '100%',
+            minHeight: '40px',
             padding: 10,
             background: 'transparent',
             borderColor: 'transparent',
@@ -99,6 +102,7 @@ const SelectStartAndEndDate: NextPage<SelectStartAndEndDateProps> = ({
           }}
           type='date'
           id='end-date'
+          placeholder='Select End Date'
           value={endDate}
           max={todayRef.current}
           onChange={handleEndDateChange}

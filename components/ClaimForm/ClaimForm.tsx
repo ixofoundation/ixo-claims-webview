@@ -11,9 +11,9 @@ import IconText from '@components/IconText/IconText';
 import { themeJson } from '@constants/surveyTheme';
 import { ChainNetwork } from 'types/chain';
 import {
-  DEVNET_OFFSET_CLAIM_COLLECTION_IDS,
-  MAINNET_OFFSET_CLAIM_COLLECTION_IDS,
-  TESTNET_OFFSET_CLAIM_COLLECTION_IDS,
+  DEVNET_OFFSET_CLAIM_SURVEY_TITLE,
+  MAINNET_OFFSET_CLAIM_SURVEY_TITLE,
+  TESTNET_OFFSET_CLAIM_SURVEY_TITLE,
 } from '@utils/secrets';
 
 type ClaimFormProps = {
@@ -34,19 +34,36 @@ const ClaimForm: NextPage<ClaimFormProps> = ({ surveyTemplate, network, claimCol
 
   console.log(surveyTemplate);
 
+  // TODO: reactivate
+  // const surveyIsOffsetClaim = useMemo(
+  //   function () {
+  //     const offsetClaimCollections =
+  //       network === ChainNetwork.Mainnet
+  //         ? MAINNET_OFFSET_CLAIM_COLLECTION_IDS
+  //         : network === ChainNetwork.Testnet
+  //         ? TESTNET_OFFSET_CLAIM_COLLECTION_IDS
+  //         : network === ChainNetwork.Devnet
+  //         ? DEVNET_OFFSET_CLAIM_COLLECTION_IDS
+  //         : [];
+  //     return offsetClaimCollections.includes(claimCollectionId ?? '');
+  //   },
+  //   [network, claimCollectionId],
+  // );
+
   const surveyIsOffsetClaim = useMemo(
     function () {
-      const offsetClaimCollections =
-        network === ChainNetwork.Mainnet
-          ? MAINNET_OFFSET_CLAIM_COLLECTION_IDS
-          : network === ChainNetwork.Testnet
-          ? TESTNET_OFFSET_CLAIM_COLLECTION_IDS
-          : network === ChainNetwork.Devnet
-          ? DEVNET_OFFSET_CLAIM_COLLECTION_IDS
-          : [];
-      return offsetClaimCollections.includes(claimCollectionId ?? '');
+      switch (network) {
+        case ChainNetwork.Mainnet:
+          return MAINNET_OFFSET_CLAIM_SURVEY_TITLE === surveyTemplate.title;
+        case ChainNetwork.Testnet:
+          return TESTNET_OFFSET_CLAIM_SURVEY_TITLE === surveyTemplate.title;
+        case ChainNetwork.Devnet:
+          return DEVNET_OFFSET_CLAIM_SURVEY_TITLE === surveyTemplate.title;
+        default:
+          return false;
+      }
     },
-    [network, claimCollectionId],
+    [network, surveyTemplate],
   );
 
   const handleSubmit = useCallback(async function (answer: any) {
