@@ -59,6 +59,7 @@ const SelectStartAndEndDate: NextPage<SelectStartAndEndDateProps> = ({
 
   return (
     <main className={cls(utilsStyles.main, utilsStyles.columnJustifyAlignCenter)}>
+      <h3>Select the period for which you want to make an Offset claim.</h3>
       <label htmlFor='start-date'>Start Date</label>
       <Card
         style={{ padding: 0 }}
